@@ -1,6 +1,12 @@
 require 'csv'
 
-CSV.read('search_results.csv').each do |info|
-  # Task ID,Created At,Completed At,Last Modified,Name,Section/Column,Assignee,Assignee Email,Start Date,Due Date,Tags,Notes,Projects,Parent Task,Blocked By (Dependencies),Blocking (Dependencies),Type,Team/Focus,Priority,Time Estimate/Sizing,Team / Focus,Product stage,Project size,Rev Impact,P2'd
-   puts "#{info[3]} - #{info[4]}"
+# Read and parse the CSV file
+data = CSV.read('search_results.csv', headers: true)
+
+# Sort by 'Last Modified' (column 3) in descending order
+sorted_data = data.sort_by { |info| Date.parse(info['Last Modified']) }.reverse
+
+# Output the sorted data
+sorted_data.each do |info|
+  puts "#{info['Last Modified']} - #{info['Name']}"
 end
